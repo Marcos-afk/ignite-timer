@@ -1,6 +1,6 @@
 import * as zod from 'zod';
 
-export const HomeFormSchema = zod.object({
+export const NewCycleFormSchema = zod.object({
   task: zod.string().min(1, 'Informe a tarefa'),
   minutesAmount: zod
     .number()
@@ -8,4 +8,4 @@ export const HomeFormSchema = zod.object({
     .max(60, 'O ciclo precisa ser de no máximo 60 minutos.'),
 });
 
-export type HomeFormProps = zod.infer<typeof HomeFormSchema>;
+export type NewCycleFormProps = zod.infer<typeof NewCycleFormSchema>;

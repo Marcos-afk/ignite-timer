@@ -1,4 +1,4 @@
-export const defaultValuesHomeForm = {
+export const defaultValuesNewCycleForm = {
   task: '',
   minutesAmount: 10,
 };

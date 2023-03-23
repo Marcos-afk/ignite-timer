@@ -1,24 +1,26 @@
 import * as Styled from './styles';
-import { Play } from 'phosphor-react';
 import { useForm } from 'react-hook-form';
-import { defaultValuesHomeForm } from './defaultValues';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { HomeFormSchema, HomeFormProps } from './schemas';
+import { HandPalm, Play } from 'phosphor-react';
+import { useCycles } from '@hooks/useCycles';
+import { CountDown } from '@components/CountDown';
+import { defaultValuesNewCycleForm } from './defaultValues';
+import { NewCycleFormProps, NewCycleFormSchema } from './schemas';
 
 export const Home = () => {
+  const { activeCycle, interruptCurrentCycle, createNewCycle } = useCycles();
   const {
     register,
     handleSubmit,
     reset,
     formState: { isValid },
-  } = useForm<HomeFormProps>({
-    defaultValues: defaultValuesHomeForm,
-    resolver: zodResolver(HomeFormSchema),
+  } = useForm<NewCycleFormProps>({
+    defaultValues: defaultValuesNewCycleForm,
+    resolver: zodResolver(NewCycleFormSchema),
   });
 
-  const handleCreateNewCycle = (data: HomeFormProps) => {
-    // eslint-disable-next-line no-console
-    console.log(data);
+  const handleCreateNewCycle = ({ task, minutesAmount }: NewCycleFormProps) => {
+    createNewCycle(task, minutesAmount);
     reset();
   };
 
@@ -33,6 +35,7 @@ export const Home = () => {
             placeholder="Dê um nome ao seu projeto"
             list="task-suggestions"
             {...register('task')}
+            disabled={!!activeCycle}
           />
 
           <datalist id="task-suggestions">
@@ -51,21 +54,27 @@ export const Home = () => {
             min={5}
             max={60}
             {...register('minutesAmount', { valueAsNumber: true })}
+            disabled={!!activeCycle}
           />
           <span>Minutos</span>
         </Styled.FormContainer>
-
-        <Styled.CountDownContainer>
-          <span>0</span>
-          <span>0</span>
-          <Styled.Separator>:</Styled.Separator>
-          <span>0</span>
-          <span>0</span>
-        </Styled.CountDownContainer>
-
-        <Styled.StartCountDownButton type="submit" onClick={handleSubmit(handleCreateNewCycle)} disabled={!isValid}>
-          <Play size={24} /> Começar
-        </Styled.StartCountDownButton>
+        <CountDown />
+        {activeCycle ? (
+          <Styled.StopCountDownButton
+            type="button"
+            onClick={interruptCurrentCycle}
+          >
+            <HandPalm size={24} /> Interromper
+          </Styled.StopCountDownButton>
+        ) : (
+          <Styled.StartCountDownButton
+            type="submit"
+            onClick={handleSubmit(handleCreateNewCycle)}
+            disabled={!isValid}
+          >
+            <Play size={24} /> Começar
+          </Styled.StartCountDownButton>
+        )}
       </form>
     </Styled.HomeContainer>
   );
