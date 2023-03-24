@@ -28,7 +28,8 @@
       "@contexts/*": ["./src/contexts/*"],
       "@theme/*": ["./src/theme/*"],
       "@routes/*": ["./src/routes/*"],
-      "@layouts/*": ["./src/layouts/*"]
+      "@layouts/*": ["./src/layouts/*"],
+      "@reducers/*": ["./src/reducers/*"]
     }
   },
   "include": ["src"],

@@ -26,7 +26,7 @@ export const History = () => {
                 <td>{cycle.task}</td>
                 <td>{cycle.minutesAmount} minutos</td>
                 <td>
-                  {formatDistanceToNow(cycle.startDate, {
+                  {formatDistanceToNow(new Date(cycle.startDate), {
                     addSuffix: true,
                     locale: ptBR,
                   })}
@@ -36,13 +36,13 @@ export const History = () => {
                     <Styled.Status statusColor="green">Concluído</Styled.Status>
                   )}
 
-                  {cycle.interruptDate && (
+                  {cycle.interruptedDate && (
                     <Styled.Status statusColor="red">
                       Interrompido
                     </Styled.Status>
                   )}
 
-                  {!cycle.finishedDate && !cycle.interruptDate && (
+                  {!cycle.finishedDate && !cycle.interruptedDate && (
                     <Styled.Status statusColor="yellow">
                       Em andamento
                     </Styled.Status>
